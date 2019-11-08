@@ -40,13 +40,22 @@ namespace asyncawait.Controllers
         [Route("companies")]
         public Task<Company[]> GetCompanies() 
         {
-            return this.db.Companies.ToArrayAsync();
+            return Task.Run(() => {
+                var data = this.db.Companies.ToListAsync().Result;
+                data.Insert(0, new Company() { Id = 0, Name = "-"});
+                return data.ToArray();
+            });
         }
 
         [Route("resources")]
         public Task<Resource[]> GetResources() 
         {
-            return this.db.Resources.ToArrayAsync();
+            return this.db.Resources.ToListAsync()
+                .ContinueWith(dataTask => {
+                    var data = dataTask.Result;
+                    dataTask.Result.Insert(0, new Resource() { Id = 0, Name = "-"});
+                    return data.ToArray();
+                });
         }
     }
 }
