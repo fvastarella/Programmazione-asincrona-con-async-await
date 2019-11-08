@@ -11,12 +11,11 @@ namespace asyncawait.Controllers
     [Route("[controller]")]
     public class DataController : ControllerBase
     {
-        private readonly DbContextOptionsBuilder<AppDbContext> optionsBuilder = null;
+        private readonly AppDbContext db = null;
 
-        public DataController(IConfiguration configuration)
+        public DataController(AppDbContext db)
         {
-            this.optionsBuilder = new DbContextOptionsBuilder<AppDbContext>()
-                .UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+            this.db = db;
         }
 
         public IActionResult Get()
@@ -31,30 +30,23 @@ namespace asyncawait.Controllers
         }
 
         [Route("areas")]
-        public Task<Area[]> GetAreas() 
+        public async Task<Area[]> GetAreas() 
         {
-            using(var db = new AppDbContext(this.optionsBuilder.Options))
-            {
-                return db.Areas.ToArrayAsync();
-            }
+            var data = await this.db.Areas.ToListAsync();
+            data.Insert(0, new Area() { Id = 0, Name = "-"});
+            return data.ToArray();
         }
 
         [Route("companies")]
         public Task<Company[]> GetCompanies() 
         {
-            using(var db = new AppDbContext(this.optionsBuilder.Options))
-            {
-                return db.Companies.ToArrayAsync();
-            }
+            return this.db.Companies.ToArrayAsync();
         }
 
         [Route("resources")]
         public Task<Resource[]> GetResources() 
         {
-            using(var db = new AppDbContext(this.optionsBuilder.Options))
-            {
-                return db.Resources.ToArrayAsync();
-            }
+            return this.db.Resources.ToArrayAsync();
         }
     }
 }
