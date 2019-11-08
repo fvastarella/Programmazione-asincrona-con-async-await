@@ -1,10 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using asyncawait.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace asyncawait.Controllers
 {
@@ -12,11 +11,12 @@ namespace asyncawait.Controllers
     [Route("[controller]")]
     public class DataController : ControllerBase
     {
-        private readonly AppDbContext db = null;
+        private readonly DbContextOptionsBuilder<AppDbContext> optionsBuilder = null;
 
-        public DataController(AppDbContext db)
+        public DataController(IConfiguration configuration)
         {
-            this.db = db;
+            this.optionsBuilder = new DbContextOptionsBuilder<AppDbContext>()
+                .UseSqlite(configuration.GetConnectionString("DefaultConnection"));
         }
 
         public IActionResult Get()
@@ -33,19 +33,28 @@ namespace asyncawait.Controllers
         [Route("areas")]
         public Area[] GetAreas() 
         {
-            return this.db.Areas.ToArray();
+            using(var db = new AppDbContext(this.optionsBuilder.Options))
+            {
+                return db.Areas.ToArray();
+            }
         }
 
         [Route("companies")]
         public Company[] GetCompanies() 
         {
-            return this.db.Companies.ToArray();
+            using(var db = new AppDbContext(this.optionsBuilder.Options))
+            {
+                return db.Companies.ToArray();
+            }
         }
 
         [Route("resources")]
         public Resource[] GetResources() 
         {
-            return this.db.Resources.ToArray();
+            using(var db = new AppDbContext(this.optionsBuilder.Options))
+            {
+                return db.Resources.ToArray();
+            }
         }
     }
 }
