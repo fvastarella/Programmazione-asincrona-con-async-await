@@ -22,8 +22,7 @@ namespace asyncawait.Controllers
             var companies = this.GetCompanies();
             var resources = this.GetResources();
             return Ok(new { areas = areas, companies = companies, resources = resources });
-        } 
-
+        }
 
         [Route("areas")]
         public IEnumerable<Area> GetAreas() 
