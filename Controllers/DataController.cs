@@ -27,19 +27,19 @@ namespace asyncawait.Controllers
         [Route("areas")]
         public IEnumerable<Area> GetAreas() 
         {
-            return this.db.Areas.ToList();
+            return this.db.Areas.ToArray();
         }
 
         [Route("companies")]
-        public IEnumerable<Company> GetCompanies() 
+        public Company[] GetCompanies() 
         {
-            return this.db.Companies.ToList();
+            return this.db.Companies.ToArray();
         }
 
         [Route("resources")]
-        public IEnumerable<Resource> GetResources() 
+        public Resource[] GetResources() 
         {
-            return this.db.Resources.ToList();
+            return this.db.Resources.ToArray();
         }
     }
 }
