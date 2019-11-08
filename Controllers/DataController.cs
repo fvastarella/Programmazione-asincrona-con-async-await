@@ -21,9 +21,9 @@ namespace asyncawait.Controllers
 
         public IActionResult Get()
         {
-            var areas = Task.Run(() => this.GetAreas());
-            var companies = Task.Run(() => this.GetCompanies());
-            var resources = Task.Run(() => this.GetResources());
+            var areas = this.GetAreas();
+            var companies = this.GetCompanies();
+            var resources = this.GetResources();
 
             Task.WhenAll(areas, companies, resources);
 
@@ -31,29 +31,29 @@ namespace asyncawait.Controllers
         }
 
         [Route("areas")]
-        public Area[] GetAreas() 
+        public Task<Area[]> GetAreas() 
         {
             using(var db = new AppDbContext(this.optionsBuilder.Options))
             {
-                return db.Areas.ToArray();
+                return db.Areas.ToArrayAsync();
             }
         }
 
         [Route("companies")]
-        public Company[] GetCompanies() 
+        public Task<Company[]> GetCompanies() 
         {
             using(var db = new AppDbContext(this.optionsBuilder.Options))
             {
-                return db.Companies.ToArray();
+                return db.Companies.ToArrayAsync();
             }
         }
 
         [Route("resources")]
-        public Resource[] GetResources() 
+        public Task<Resource[]> GetResources() 
         {
             using(var db = new AppDbContext(this.optionsBuilder.Options))
             {
-                return db.Resources.ToArray();
+                return db.Resources.ToArrayAsync();
             }
         }
     }
