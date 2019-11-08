@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using asyncawait.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace asyncawait.Controllers
 {
@@ -18,28 +21,31 @@ namespace asyncawait.Controllers
 
         public IActionResult Get()
         {
-            var areas = this.GetAreas();
-            var companies = this.GetCompanies();
-            var resources = this.GetResources();
-            return Ok(new { areas = areas, companies = companies, resources = resources });
+            var areas = Task.Run(() => this.GetAreas());
+            var companies = Task.Run(() => this.GetCompanies());
+            var resources = Task.Run(() => this.GetResources());
+
+            Task.WhenAll(areas, companies, resources);
+
+            return Ok(new { areas = areas.Result, companies = companies.Result, resources = resources.Result });
         }
 
         [Route("areas")]
-        public IEnumerable<Area> GetAreas() 
+        public Area[] GetAreas() 
         {
-            return this.db.Areas.ToList();
+            return this.db.Areas.ToArray();
         }
 
         [Route("companies")]
-        public IEnumerable<Company> GetCompanies() 
+        public Company[] GetCompanies() 
         {
-            return this.db.Companies.ToList();
+            return this.db.Companies.ToArray();
         }
 
         [Route("resources")]
-        public IEnumerable<Resource> GetResources() 
+        public Resource[] GetResources() 
         {
-            return this.db.Resources.ToList();
+            return this.db.Resources.ToArray();
         }
     }
 }
