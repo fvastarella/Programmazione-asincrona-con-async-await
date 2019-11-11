@@ -44,16 +44,18 @@ namespace asyncawait.Controllers
         [Route("companies")]
         public Task<Company[]> GetCompanies()
         {
-            using (var db = new AppDbContext(this.optionsBuilder.Options))
-            {
-                return Task.Run(() =>
-                {
-                    var data = db.Companies.ToList();
-                    data.Insert(0, new Company() { Id = 0, Name = "-" });
-                    return data.ToArray();
-                });
-            }
+            return Task.Run(() =>
+               {
+                   using (var db = new AppDbContext(this.optionsBuilder.Options))
+                   {
+
+                       var data = db.Companies.ToList();
+                       data.Insert(0, new Company() { Id = 0, Name = "-" });
+                       return data.ToArray();
+                   }
+               });
         }
+
 
         [Route("resources")]
         public Task<Resource[]> GetResources()
