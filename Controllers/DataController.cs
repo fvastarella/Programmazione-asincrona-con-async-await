@@ -11,11 +11,12 @@ namespace asyncawait.Controllers
     [Route("[controller]")]
     public class DataController : ControllerBase
     {
-        private readonly AppDbContext db = null;
+        private readonly DbContextOptionsBuilder<AppDbContext> optionsBuilder = null;
 
-        public DataController(AppDbContext db)
+        public DataController(IConfiguration configuration)
         {
-            this.db = db;
+            this.optionsBuilder = new DbContextOptionsBuilder<AppDbContext>()
+                .UseSqlite(configuration.GetConnectionString("DefaultConnection"));
         }
 
         public IActionResult Get()
@@ -30,32 +31,43 @@ namespace asyncawait.Controllers
         }
 
         [Route("areas")]
-        public async Task<Area[]> GetAreas() 
+        public async Task<Area[]> GetAreas()
         {
-            var data = await this.db.Areas.ToListAsync();
-            data.Insert(0, new Area() { Id = 0, Name = "-"});
-            return data.ToArray();
+            using (var db = new AppDbContext(this.optionsBuilder.Options))
+            {
+                var data = await db.Areas.ToListAsync();
+                data.Insert(0, new Area() { Id = 0, Name = "-" });
+                return data.ToArray();
+            }
         }
 
         [Route("companies")]
-        public Task<Company[]> GetCompanies() 
+        public Task<Company[]> GetCompanies()
         {
-            return Task.Run(() => {
-                var data = this.db.Companies.ToList();
-                data.Insert(0, new Company() { Id = 0, Name = "-"});
-                return data.ToArray();
-            });
+            using (var db = new AppDbContext(this.optionsBuilder.Options))
+            {
+                return Task.Run(() =>
+                {
+                    var data = db.Companies.ToList();
+                    data.Insert(0, new Company() { Id = 0, Name = "-" });
+                    return data.ToArray();
+                });
+            }
         }
 
         [Route("resources")]
-        public Task<Resource[]> GetResources() 
+        public Task<Resource[]> GetResources()
         {
-            return this.db.Resources.ToListAsync()
-                .ContinueWith(dataTask => {
-                    var data = dataTask.Result;
-                    dataTask.Result.Insert(0, new Resource() { Id = 0, Name = "-"});
-                    return data.ToArray();
-                });
+            using (var db = new AppDbContext(this.optionsBuilder.Options))
+            {
+                return db.Resources.ToListAsync()
+                    .ContinueWith(dataTask =>
+                    {
+                        var data = dataTask.Result;
+                        dataTask.Result.Insert(0, new Resource() { Id = 0, Name = "-" });
+                        return data.ToArray();
+                    });
+            }
         }
     }
 }

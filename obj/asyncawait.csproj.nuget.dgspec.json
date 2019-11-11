@@ -1,29 +1,34 @@
 {
   "format": 1,
   "restore": {
-    "/Users/micheleaponte/articles/asyncawait/asyncawait.csproj": {}
+    "C:\\Repos\\asyncawait\\asyncawait.csproj": {}
   },
   "projects": {
-    "/Users/micheleaponte/articles/asyncawait/asyncawait.csproj": {
+    "C:\\Repos\\asyncawait\\asyncawait.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/micheleaponte/articles/asyncawait/asyncawait.csproj",
+        "projectUniqueName": "C:\\Repos\\asyncawait\\asyncawait.csproj",
         "projectName": "asyncawait",
-        "projectPath": "/Users/micheleaponte/articles/asyncawait/asyncawait.csproj",
-        "packagesPath": "/Users/micheleaponte/.nuget/packages/",
-        "outputPath": "/Users/micheleaponte/articles/asyncawait/obj/",
+        "projectPath": "C:\\Repos\\asyncawait\\asyncawait.csproj",
+        "packagesPath": "C:\\Users\\Francesco Vastarella\\.nuget\\packages\\",
+        "outputPath": "C:\\Repos\\asyncawait\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/Users/micheleaponte/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Francesco Vastarella\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://blexin.pkgs.visualstudio.com/_packaging/ExternalLibraries/nuget/v3/index.json": {},
+          "https://blexin.pkgs.visualstudio.com/_packaging/Raptor/nuget/v3/index.json": {},
+          "https://blexin.pkgs.visualstudio.com/_packaging/WebRight/nuget/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.0": {
@@ -70,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.0.100/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
