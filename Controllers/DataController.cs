@@ -41,7 +41,7 @@ namespace asyncawait.Controllers
         public Task<Company[]> GetCompanies() 
         {
             return Task.Run(() => {
-                var data = this.db.Companies.ToListAsync().Result;
+                var data = this.db.Companies.ToList();
                 data.Insert(0, new Company() { Id = 0, Name = "-"});
                 return data.ToArray();
             });
