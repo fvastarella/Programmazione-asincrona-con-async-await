@@ -25,7 +25,7 @@ namespace asyncawait.Controllers
         }
 
         [Route("areas")]
-        public IEnumerable<Area> GetAreas() 
+        public Area[] GetAreas() 
         {
             return this.db.Areas.ToArray();
         }
